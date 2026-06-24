@@ -1,4 +1,4 @@
-import { AnamneseFormData, YesNo } from "./types";
+import { AnamneseFormData, MOOD_OPTIONS, YesNo } from "./types";
 
 function yn(value: YesNo): string {
   if (value === "sim") return "Sim";
@@ -6,15 +6,38 @@ function yn(value: YesNo): string {
   return "—";
 }
 
-function ynWithDetail(value: YesNo, detail: string): string {
-  const base = yn(value);
-  if (detail.trim()) return `${base} — ${detail}`;
-  return base;
-}
-
 function list(items: string[]): string {
   return items.length > 0 ? items.join(", ") : "—";
 }
+
+function formatHumor(ids: string[]): string {
+  if (ids.length === 0) return "—";
+  return ids
+    .map((id) => {
+      const mood = MOOD_OPTIONS.find((m) => m.id === id);
+      return mood ? `${mood.emoji} ${mood.label}` : id;
+    })
+    .join(", ");
+}
+
+const FUMANTE_LABELS: Record<string, string> = {
+  sim: "Sim",
+  nunca: "Não sou, nunca fui",
+  ex: "Não sou, mas já fui",
+};
+
+const AGUA_LABELS: Record<string, string> = {
+  "menos-1l": "Menos de 1L",
+  "1l-ou-mais": "1L ou mais",
+};
+
+const INTESTINO_LABELS: Record<string, string> = {
+  excelente: "Excelente",
+  bom: "Bom",
+  regular: "Regular",
+  ruim: "Ruim",
+  pessimo: "Péssimo",
+};
 
 export function formatAnamneseEmail(data: AnamneseFormData): {
   subject: string;
@@ -36,32 +59,23 @@ export function formatAnamneseEmail(data: AnamneseFormData): {
     {
       title: "Histórico Geral",
       rows: [
-        ["Tratamento estético anterior", ynWithDetail(data.tratamentoEsteticoAnterior, data.tratamentoEsteticoAnteriorQual)],
-        ["Antecedentes alérgicos", ynWithDetail(data.antecedentesAlergicos, data.antecedentesAlergicosQual)],
-        ["Funcionamento intestinal regular", ynWithDetail(data.funcionamentoIntestinal, data.funcionamentoIntestinalQual)],
-        ["Pratica esportes", ynWithDetail(data.praticaEsportes, data.praticaEsportesQual)],
-        ["É fumante", ynWithDetail(data.fumanteHistorico, data.fumanteHistoricoQual)],
-        ["Alimentação balanceada", ynWithDetail(data.alimentacaoBalanceada, data.alimentacaoBalanceadaQual)],
-        ["Faz tratamento médico", ynWithDetail(data.tratamentoMedico, data.tratamentoMedicoQual)],
-        ["Usa medicamento", ynWithDetail(data.usaMedicamento, data.usaMedicamentoQual)],
-        ["Usa ou já usou ácidos na pele", ynWithDetail(data.usaAcidos, data.usaAcidosQual)],
-        ["É gestante", ynWithDetail(data.gestanteHistorico, data.gestanteHistoricoQual)],
-        ["Portador de marcapasso", ynWithDetail(data.marcapasso, data.marcapassoQual)],
+        ["Tratamento estético anterior", yn(data.tratamentoEsteticoAnterior)],
+        ["Usa ou já usou ácidos na pele", yn(data.usaAcidos)],
+        ["Portador de marcapasso", yn(data.marcapasso)],
       ],
     },
     {
       title: "Histórico Geral (cont.)",
       rows: [
-        ["Próteses metálicas", ynWithDetail(data.protesesMetalicas, data.protesesMetalicasQual)],
-        ["Problemas cardíacos", ynWithDetail(data.problemasCardiacos, data.problemasCardiacosQual)],
-        ["Epilepsia", ynWithDetail(data.epilepsia, data.epilepsiaQual)],
-        ["Antecedentes oncológicos", ynWithDetail(data.antecedentesOncologicos, data.antecedentesOncologicosQual)],
-        ["Ciclo menstrual regular", ynWithDetail(data.cicloMenstrual, data.cicloMenstrualQual)],
-        ["Método anticoncepcional", ynWithDetail(data.metodoAnticoncepcional, data.metodoAnticoncepcionalQual)],
-        ["Cuidados diários e produtos", ynWithDetail(data.cuidadosDiarios, data.cuidadosDiariosQual)],
-        ["Diabetes", ynWithDetail(data.diabetesHistorico, data.diabetesHistoricoQual)],
-        ["Próteses dentárias", ynWithDetail(data.protesesDentarias, data.protesesDentariasQual)],
-        ["Costuma tomar sol", ynWithDetail(data.tomaSol, data.tomaSolQual)],
+        ["Próteses metálicas", yn(data.protesesMetalicas)],
+        ["Problemas cardíacos", yn(data.problemasCardiacos)],
+        ["Epilepsia", yn(data.epilepsia)],
+        ["Antecedentes oncológicos", yn(data.antecedentesOncologicos)],
+        ["Ciclo menstrual regular", yn(data.cicloMenstrual)],
+        ["Método anticoncepcional", yn(data.metodoAnticoncepcional)],
+        ["Cuidados diários e produtos", yn(data.cuidadosDiarios)],
+        ["Próteses dentárias", yn(data.protesesDentarias)],
+        ["Costuma tomar sol", yn(data.tomaSol)],
       ],
     },
     {
@@ -71,16 +85,16 @@ export function formatAnamneseEmail(data: AnamneseFormData): {
         ["Cirurgias", data.cirurgia || "—"],
         ["Alergias", data.alergia || "—"],
         ["Medicamentos atuais", data.medicamentoAtual || "—"],
-        ["Gestante", yn(data.gestanteClinico)],
+        ["Gestante/Lactante", yn(data.gestanteLactante)],
       ],
     },
     {
       title: "Hábitos de Vida",
       rows: [
-        ["Água diária", data.aguaDiaria || "—"],
-        ["Fumante", data.fumanteHabitos || "—"],
-        ["Alimentação", list(data.alimentacaoHabitos)],
-        ["Intestino", data.intestino || "—"],
+        ["Água diária", AGUA_LABELS[data.aguaDiaria] || "—"],
+        ["Fumante", FUMANTE_LABELS[data.fumanteHabitos] || "—"],
+        ["Quais consome", data.quaisConsome || "—"],
+        ["Intestino", INTESTINO_LABELS[data.intestino] || "—"],
         ["Qualidade do sono", data.qualidadeSono || "—"],
       ],
     },
@@ -90,7 +104,7 @@ export function formatAnamneseEmail(data: AnamneseFormData): {
         ["Produtos em uso", list(data.produtosUso)],
         ["Procedimento facial (3 meses)", yn(data.procedimentoFacial)],
         ["Alergia/sensibilidade cosmético", yn(data.alergiaCosmetico)],
-        ["Bem-estar atual", list(data.bemEstar)],
+        ["Humor", formatHumor(data.humor)],
       ],
     },
     {
@@ -100,13 +114,9 @@ export function formatAnamneseEmail(data: AnamneseFormData): {
         ["Tratamento médico atual", data.tratamentoMedicoAtual || "—"],
         ["Tratamento estético atual", data.tratamentoEsteticoAtual || "—"],
         ["Atividade física", data.atividadeFisica || "—"],
-        ["Alergias", data.alergiasComplementar || "—"],
         ["Anticoagulantes", data.anticoagulantes || "—"],
         ["Problemas respiratórios", data.problemasRespiratorios || "—"],
-        ["Diabetes", yn(data.diabetesComplementar)],
-        ["Gestante/Lactante", yn(data.gestanteLactante)],
-        ["Hepatite/Quelóide", yn(data.hepatiteQueloide)],
-        ["Fumante", yn(data.fumanteComplementar)],
+        ["Quelóide", yn(data.queloide)],
         ["Queixa principal", data.queixaPrincipal || "—"],
       ],
     },

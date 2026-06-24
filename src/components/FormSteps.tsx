@@ -3,10 +3,10 @@
 import { AnamneseFormData } from "@/lib/types";
 import {
   CheckboxGroup,
+  MoodPicker,
   RadioGroup,
   SectionTitle,
   TextField,
-  YesNoField,
   YesNoSimple,
 } from "./FormFields";
 
@@ -32,20 +32,11 @@ export function StepIdentificacao({ data, update }: StepProps) {
 
 const historicoGeralQuestions: {
   key: keyof AnamneseFormData;
-  detailKey: keyof AnamneseFormData;
   label: string;
 }[] = [
-  { key: "tratamentoEsteticoAnterior", detailKey: "tratamentoEsteticoAnteriorQual", label: "Fez tratamento estético anterior?" },
-  { key: "antecedentesAlergicos", detailKey: "antecedentesAlergicosQual", label: "Antecedentes alérgicos?" },
-  { key: "funcionamentoIntestinal", detailKey: "funcionamentoIntestinalQual", label: "Funcionamento intestinal regular?" },
-  { key: "praticaEsportes", detailKey: "praticaEsportesQual", label: "Pratica esportes?" },
-  { key: "fumanteHistorico", detailKey: "fumanteHistoricoQual", label: "É fumante?" },
-  { key: "alimentacaoBalanceada", detailKey: "alimentacaoBalanceadaQual", label: "Alimentação balanceada?" },
-  { key: "tratamentoMedico", detailKey: "tratamentoMedicoQual", label: "Faz algum tratamento médico?" },
-  { key: "usaMedicamento", detailKey: "usaMedicamentoQual", label: "Usa algum medicamento?" },
-  { key: "usaAcidos", detailKey: "usaAcidosQual", label: "Usa ou já usou ácidos na pele?" },
-  { key: "gestanteHistorico", detailKey: "gestanteHistoricoQual", label: "É gestante?" },
-  { key: "marcapasso", detailKey: "marcapassoQual", label: "Portador de marcapasso?" },
+  { key: "tratamentoEsteticoAnterior", label: "Fez tratamento estético anterior?" },
+  { key: "usaAcidos", label: "Usa ou já usou ácidos na pele?" },
+  { key: "marcapasso", label: "Portador de marcapasso?" },
 ];
 
 export function StepHistoricoGeral({ data, update }: StepProps) {
@@ -53,13 +44,11 @@ export function StepHistoricoGeral({ data, update }: StepProps) {
     <>
       <SectionTitle>Histórico Geral</SectionTitle>
       {historicoGeralQuestions.map((q) => (
-        <YesNoField
+        <YesNoSimple
           key={q.key}
           label={q.label}
           value={data[q.key] as string}
-          detail={data[q.detailKey] as string}
           onChange={(v) => update(q.key, v)}
-          onDetailChange={(v) => update(q.detailKey, v)}
         />
       ))}
     </>
@@ -67,16 +56,15 @@ export function StepHistoricoGeral({ data, update }: StepProps) {
 }
 
 const historicoGeralContQuestions: typeof historicoGeralQuestions = [
-  { key: "protesesMetalicas", detailKey: "protesesMetalicasQual", label: "Presença de próteses metálicas?" },
-  { key: "problemasCardiacos", detailKey: "problemasCardiacosQual", label: "Tem problemas cardíacos?" },
-  { key: "epilepsia", detailKey: "epilepsiaQual", label: "Portador de epilepsia?" },
-  { key: "antecedentesOncologicos", detailKey: "antecedentesOncologicosQual", label: "Antecedentes oncológicos?" },
-  { key: "cicloMenstrual", detailKey: "cicloMenstrualQual", label: "Ciclo menstrual regular?" },
-  { key: "metodoAnticoncepcional", detailKey: "metodoAnticoncepcionalQual", label: "Usa método anticoncepcional?" },
-  { key: "cuidadosDiarios", detailKey: "cuidadosDiariosQual", label: "Cuidados diários e produtos em uso?" },
-  { key: "diabetesHistorico", detailKey: "diabetesHistoricoQual", label: "Tem diabetes?" },
-  { key: "protesesDentarias", detailKey: "protesesDentariasQual", label: "Próteses dentárias?" },
-  { key: "tomaSol", detailKey: "tomaSolQual", label: "Costuma tomar sol?" },
+  { key: "protesesMetalicas", label: "Presença de próteses metálicas?" },
+  { key: "problemasCardiacos", label: "Tem problemas cardíacos?" },
+  { key: "epilepsia", label: "Portador de epilepsia?" },
+  { key: "antecedentesOncologicos", label: "Antecedentes oncológicos?" },
+  { key: "cicloMenstrual", label: "Ciclo menstrual regular?" },
+  { key: "metodoAnticoncepcional", label: "Usa método anticoncepcional?" },
+  { key: "cuidadosDiarios", label: "Cuidados diários e produtos em uso?" },
+  { key: "protesesDentarias", label: "Próteses dentárias?" },
+  { key: "tomaSol", label: "Costuma tomar sol?" },
 ];
 
 export function StepHistoricoGeralCont({ data, update }: StepProps) {
@@ -84,13 +72,11 @@ export function StepHistoricoGeralCont({ data, update }: StepProps) {
     <>
       <SectionTitle>Histórico Geral (cont.)</SectionTitle>
       {historicoGeralContQuestions.map((q) => (
-        <YesNoField
+        <YesNoSimple
           key={q.key}
           label={q.label}
           value={data[q.key] as string}
-          detail={data[q.detailKey] as string}
           onChange={(v) => update(q.key, v)}
-          onDetailChange={(v) => update(q.detailKey, v)}
         />
       ))}
     </>
@@ -123,7 +109,7 @@ export function StepHistoricoClinico({ data, update }: StepProps) {
       <TextField label="Já fez alguma cirurgia? Se sim, qual?" value={data.cirurgia} onChange={(v) => update("cirurgia", v)} multiline />
       <TextField label="Possui alguma alergia? A que?" value={data.alergia} onChange={(v) => update("alergia", v)} multiline />
       <TextField label="Usa medicamento atualmente? Se sim, qual?" value={data.medicamentoAtual} onChange={(v) => update("medicamentoAtual", v)} multiline />
-      <YesNoSimple label="Está gestante?" value={data.gestanteClinico} onChange={(v) => update("gestanteClinico", v)} />
+      <YesNoSimple label="Gestante/Lactante?" value={data.gestanteLactante} onChange={(v) => update("gestanteLactante", v)} />
     </>
   );
 }
@@ -151,11 +137,12 @@ export function StepHabitosVida({ data, update }: StepProps) {
         value={data.fumanteHabitos}
         onChange={(v) => update("fumanteHabitos", v)}
       />
-      <CheckboxGroup
-        label="Alimentação"
-        options={["Doces", "Farináceos", "Refrigerantes", "Frituras", "Álcool"]}
-        values={data.alimentacaoHabitos}
-        onChange={(v) => update("alimentacaoHabitos", v)}
+      <TextField
+        label="Quais você consome?"
+        value={data.quaisConsome}
+        onChange={(v) => update("quaisConsome", v)}
+        multiline
+        placeholder="Descreva alimentos, bebidas e substâncias que consome regularmente"
       />
       <RadioGroup
         label="Intestino"
@@ -186,26 +173,7 @@ export function StepDiagnoseFacial({ data, update }: StepProps) {
       />
       <YesNoSimple label="Procedimento facial nos últimos 3 meses?" value={data.procedimentoFacial} onChange={(v) => update("procedimentoFacial", v)} />
       <YesNoSimple label="Alergia ou sensibilidade a cosmético?" value={data.alergiaCosmetico} onChange={(v) => update("alergiaCosmetico", v)} />
-
-      <SectionTitle>Bem-estar Atual</SectionTitle>
-      <CheckboxGroup
-        label="Selecione o que se aplica"
-        options={[
-          "Ansiedade",
-          "Apatia",
-          "Cansaço",
-          "Estresse",
-          "Insônia",
-          "Raiva",
-          "Insegurança",
-          "Baixa autoestima",
-          "Preocupação",
-          "Medo",
-          "Tristeza",
-        ]}
-        values={data.bemEstar}
-        onChange={(v) => update("bemEstar", v)}
-      />
+      <MoodPicker values={data.humor} onChange={(v) => update("humor", v)} />
     </>
   );
 }
@@ -218,13 +186,9 @@ export function StepAnamneseComplementar({ data, update }: StepProps) {
       <TextField label="Tratamento médico atual?" value={data.tratamentoMedicoAtual} onChange={(v) => update("tratamentoMedicoAtual", v)} />
       <TextField label="Tratamento estético atual?" value={data.tratamentoEsteticoAtual} onChange={(v) => update("tratamentoEsteticoAtual", v)} />
       <TextField label="Atividade física?" value={data.atividadeFisica} onChange={(v) => update("atividadeFisica", v)} />
-      <TextField label="Alergias?" value={data.alergiasComplementar} onChange={(v) => update("alergiasComplementar", v)} />
       <TextField label="Uso de anticoagulantes?" value={data.anticoagulantes} onChange={(v) => update("anticoagulantes", v)} />
       <TextField label="Problemas respiratórios?" value={data.problemasRespiratorios} onChange={(v) => update("problemasRespiratorios", v)} />
-      <YesNoSimple label="Diabetes?" value={data.diabetesComplementar} onChange={(v) => update("diabetesComplementar", v)} />
-      <YesNoSimple label="Gestante/Lactante?" value={data.gestanteLactante} onChange={(v) => update("gestanteLactante", v)} />
-      <YesNoSimple label="Hepatite/Quelóide?" value={data.hepatiteQueloide} onChange={(v) => update("hepatiteQueloide", v)} />
-      <YesNoSimple label="Fumante?" value={data.fumanteComplementar} onChange={(v) => update("fumanteComplementar", v)} />
+      <YesNoSimple label="Quelóide?" value={data.queloide} onChange={(v) => update("queloide", v)} />
       <TextField label="Queixa principal" value={data.queixaPrincipal} onChange={(v) => update("queixaPrincipal", v)} multiline />
     </>
   );

@@ -1,3 +1,48 @@
+"use client";
+
+import { MOOD_OPTIONS } from "@/lib/types";
+
+interface MoodPickerProps {
+  values: string[];
+  onChange: (values: string[]) => void;
+}
+
+export function MoodPicker({ values, onChange }: MoodPickerProps) {
+  const toggle = (id: string) => {
+    if (values.includes(id)) {
+      onChange(values.filter((v) => v !== id));
+    } else {
+      onChange([...values, id]);
+    }
+  };
+
+  return (
+    <fieldset className="mb-6">
+      <legend className="mb-4 text-base font-semibold text-stone-800">Humor</legend>
+      <div className="flex flex-wrap gap-2">
+        {MOOD_OPTIONS.map((mood) => {
+          const selected = values.includes(mood.id);
+          return (
+            <button
+              key={mood.id}
+              type="button"
+              onClick={() => toggle(mood.id)}
+              className={`inline-flex items-center gap-2 rounded-full border px-4 py-2.5 text-sm transition-all ${
+                selected
+                  ? "border-gold-400 bg-gold-100 text-gold-900 shadow-sm"
+                  : "border-orange-100 bg-orange-50/80 text-stone-700 hover:border-gold-200 hover:bg-gold-50"
+              }`}
+            >
+              <span className="text-lg leading-none">{mood.emoji}</span>
+              <span>{mood.label}</span>
+            </button>
+          );
+        })}
+      </div>
+    </fieldset>
+  );
+}
+
 interface SectionTitleProps {
   children: React.ReactNode;
 }
@@ -58,53 +103,6 @@ export function TextField({
         />
       )}
     </label>
-  );
-}
-
-interface YesNoFieldProps {
-  label: string;
-  value: string;
-  detail: string;
-  onChange: (value: "sim" | "nao" | "") => void;
-  onDetailChange: (value: string) => void;
-  showDetailOnYes?: boolean;
-}
-
-export function YesNoField({
-  label,
-  value,
-  detail,
-  onChange,
-  onDetailChange,
-  showDetailOnYes = true,
-}: YesNoFieldProps) {
-  return (
-    <div className="mb-4 rounded-lg border border-stone-100 bg-stone-50/50 px-4 py-3">
-      <p className="mb-2 text-sm text-stone-700">{label}</p>
-      <div className="flex gap-4">
-        {(["sim", "nao"] as const).map((opt) => (
-          <label key={opt} className="flex cursor-pointer items-center gap-2 text-sm">
-            <input
-              type="radio"
-              name={label}
-              checked={value === opt}
-              onChange={() => onChange(opt)}
-              className="accent-gold-600"
-            />
-            <span className="capitalize">{opt === "sim" ? "Sim" : "Não"}</span>
-          </label>
-        ))}
-      </div>
-      {(!showDetailOnYes || value === "sim") && (
-        <input
-          type="text"
-          value={detail}
-          onChange={(e) => onDetailChange(e.target.value)}
-          placeholder="Qual?"
-          className="mt-2 w-full border-0 border-b border-stone-200 bg-transparent py-1 text-sm text-stone-800 placeholder:text-stone-400 focus:border-gold-500 focus:outline-none"
-        />
-      )}
-    </div>
   );
 }
 

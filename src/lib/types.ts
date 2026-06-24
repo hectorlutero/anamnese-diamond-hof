@@ -9,61 +9,31 @@ export interface AnamneseFormData {
 
   // Histórico Geral
   tratamentoEsteticoAnterior: YesNo;
-  tratamentoEsteticoAnteriorQual: string;
-  antecedentesAlergicos: YesNo;
-  antecedentesAlergicosQual: string;
-  funcionamentoIntestinal: YesNo;
-  funcionamentoIntestinalQual: string;
-  praticaEsportes: YesNo;
-  praticaEsportesQual: string;
-  fumanteHistorico: YesNo;
-  fumanteHistoricoQual: string;
-  alimentacaoBalanceada: YesNo;
-  alimentacaoBalanceadaQual: string;
-  tratamentoMedico: YesNo;
-  tratamentoMedicoQual: string;
-  usaMedicamento: YesNo;
-  usaMedicamentoQual: string;
   usaAcidos: YesNo;
-  usaAcidosQual: string;
-  gestanteHistorico: YesNo;
-  gestanteHistoricoQual: string;
   marcapasso: YesNo;
-  marcapassoQual: string;
 
   // Histórico Geral (cont.)
   protesesMetalicas: YesNo;
-  protesesMetalicasQual: string;
   problemasCardiacos: YesNo;
-  problemasCardiacosQual: string;
   epilepsia: YesNo;
-  epilepsiaQual: string;
   antecedentesOncologicos: YesNo;
-  antecedentesOncologicosQual: string;
   cicloMenstrual: YesNo;
-  cicloMenstrualQual: string;
   metodoAnticoncepcional: YesNo;
-  metodoAnticoncepcionalQual: string;
   cuidadosDiarios: YesNo;
-  cuidadosDiariosQual: string;
-  diabetesHistorico: YesNo;
-  diabetesHistoricoQual: string;
   protesesDentarias: YesNo;
-  protesesDentariasQual: string;
   tomaSol: YesNo;
-  tomaSolQual: string;
 
   // Histórico Clínico
   condicoesClinicas: string[];
   cirurgia: string;
   alergia: string;
   medicamentoAtual: string;
-  gestanteClinico: YesNo;
+  gestanteLactante: YesNo;
 
   // Hábitos de Vida
   aguaDiaria: string;
   fumanteHabitos: string;
-  alimentacaoHabitos: string[];
+  quaisConsome: string;
   intestino: string;
   qualidadeSono: string;
 
@@ -71,20 +41,16 @@ export interface AnamneseFormData {
   produtosUso: string[];
   procedimentoFacial: YesNo;
   alergiaCosmetico: YesNo;
-  bemEstar: string[];
+  humor: string[];
 
   // Anamnese Complementar
   medicamentosControlados: string;
   tratamentoMedicoAtual: string;
   tratamentoEsteticoAtual: string;
   atividadeFisica: string;
-  alergiasComplementar: string;
   anticoagulantes: string;
   problemasRespiratorios: string;
-  diabetesComplementar: YesNo;
-  gestanteLactante: YesNo;
-  hepatiteQueloide: YesNo;
-  fumanteComplementar: YesNo;
+  queloide: YesNo;
   queixaPrincipal: string;
 
   // Termo
@@ -99,74 +65,58 @@ export const initialFormData: AnamneseFormData = {
   contato: "",
   endereco: "",
   tratamentoEsteticoAnterior: "",
-  tratamentoEsteticoAnteriorQual: "",
-  antecedentesAlergicos: "",
-  antecedentesAlergicosQual: "",
-  funcionamentoIntestinal: "",
-  funcionamentoIntestinalQual: "",
-  praticaEsportes: "",
-  praticaEsportesQual: "",
-  fumanteHistorico: "",
-  fumanteHistoricoQual: "",
-  alimentacaoBalanceada: "",
-  alimentacaoBalanceadaQual: "",
-  tratamentoMedico: "",
-  tratamentoMedicoQual: "",
-  usaMedicamento: "",
-  usaMedicamentoQual: "",
   usaAcidos: "",
-  usaAcidosQual: "",
-  gestanteHistorico: "",
-  gestanteHistoricoQual: "",
   marcapasso: "",
-  marcapassoQual: "",
   protesesMetalicas: "",
-  protesesMetalicasQual: "",
   problemasCardiacos: "",
-  problemasCardiacosQual: "",
   epilepsia: "",
-  epilepsiaQual: "",
   antecedentesOncologicos: "",
-  antecedentesOncologicosQual: "",
   cicloMenstrual: "",
-  cicloMenstrualQual: "",
   metodoAnticoncepcional: "",
-  metodoAnticoncepcionalQual: "",
   cuidadosDiarios: "",
-  cuidadosDiariosQual: "",
-  diabetesHistorico: "",
-  diabetesHistoricoQual: "",
   protesesDentarias: "",
-  protesesDentariasQual: "",
   tomaSol: "",
-  tomaSolQual: "",
   condicoesClinicas: [],
   cirurgia: "",
   alergia: "",
   medicamentoAtual: "",
-  gestanteClinico: "",
+  gestanteLactante: "",
   aguaDiaria: "",
   fumanteHabitos: "",
-  alimentacaoHabitos: [],
+  quaisConsome: "",
   intestino: "",
   qualidadeSono: "",
   produtosUso: [],
   procedimentoFacial: "",
   alergiaCosmetico: "",
-  bemEstar: [],
+  humor: [],
   medicamentosControlados: "",
   tratamentoMedicoAtual: "",
   tratamentoEsteticoAtual: "",
   atividadeFisica: "",
-  alergiasComplementar: "",
   anticoagulantes: "",
   problemasRespiratorios: "",
-  diabetesComplementar: "",
-  gestanteLactante: "",
-  hepatiteQueloide: "",
-  fumanteComplementar: "",
+  queloide: "",
   queixaPrincipal: "",
   cpf: "",
   localData: "",
   aceiteTermo: false,
 };
+
+export const MOOD_OPTIONS = [
+  { id: "calma", emoji: "😌", label: "Calma" },
+  { id: "feliz", emoji: "😊", label: "Feliz" },
+  { id: "energetica", emoji: "⚡", label: "Energética" },
+  { id: "alegre", emoji: "😋", label: "Alegre" },
+  { id: "mudancas-humor", emoji: "😢", label: "Mudanças de humor" },
+  { id: "irritada", emoji: "😡", label: "Irritada" },
+  { id: "triste", emoji: "☹️", label: "Triste" },
+  { id: "ansiosa", emoji: "😰", label: "Ansiosa" },
+  { id: "desanimada", emoji: "😞", label: "Desanimada" },
+  { id: "culpada", emoji: "😔", label: "Culpada" },
+  { id: "pensamentos-obsessivos", emoji: "💭", label: "Pensamentos obsessivos" },
+  { id: "pouca-energia", emoji: "🔋", label: "Pouca energia" },
+  { id: "apatica", emoji: "😑", label: "Apática" },
+  { id: "confusa", emoji: "😕", label: "Confusa" },
+  { id: "autocritica", emoji: "😫", label: "Muito autocrítica" },
+] as const;
