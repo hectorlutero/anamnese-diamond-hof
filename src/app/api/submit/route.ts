@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
+import { formatLocalData } from "@/lib/date";
 import { formatAnamneseEmail } from "@/lib/format-email";
 import { sendAnamneseEmail } from "@/lib/send-email";
-import { AnamneseFormData } from "@/lib/types";
+import { AnamneseSubmitPayload } from "@/lib/types";
 
 export async function POST(request: Request) {
   try {
-    const data: AnamneseFormData = await request.json();
+    const data: AnamneseSubmitPayload = await request.json();
 
     if (!data.nome?.trim() || !data.contato?.trim()) {
       return NextResponse.json(
@@ -21,8 +22,13 @@ export async function POST(request: Request) {
       );
     }
 
+    const payload: AnamneseSubmitPayload = {
+      ...data,
+      localData: data.localData || formatLocalData(data.cidade, data.uf),
+    };
+
     const to = process.env.EMAIL_TO || "dras.diamondhof@gmail.com";
-    const { subject, html, text } = formatAnamneseEmail(data);
+    const { subject, html, text } = formatAnamneseEmail(payload);
 
     await sendAnamneseEmail({ to, subject, html, text });
 

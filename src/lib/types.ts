@@ -5,7 +5,13 @@ export interface AnamneseFormData {
   nome: string;
   idade: string;
   contato: string;
-  endereco: string;
+  cep: string;
+  logradouro: string;
+  numero: string;
+  complemento: string;
+  bairro: string;
+  cidade: string;
+  uf: string;
 
   // Histórico Geral
   tratamentoEsteticoAnterior: YesNo;
@@ -55,7 +61,6 @@ export interface AnamneseFormData {
 
   // Termo
   cpf: string;
-  localData: string;
   aceiteTermo: boolean;
 }
 
@@ -63,7 +68,13 @@ export const initialFormData: AnamneseFormData = {
   nome: "",
   idade: "",
   contato: "",
-  endereco: "",
+  cep: "",
+  logradouro: "",
+  numero: "",
+  complemento: "",
+  bairro: "",
+  cidade: "",
+  uf: "",
   tratamentoEsteticoAnterior: "",
   usaAcidos: "",
   marcapasso: "",
@@ -99,7 +110,6 @@ export const initialFormData: AnamneseFormData = {
   queloide: "",
   queixaPrincipal: "",
   cpf: "",
-  localData: "",
   aceiteTermo: false,
 };
 
@@ -120,3 +130,7 @@ export const MOOD_OPTIONS = [
   { id: "confusa", emoji: "😕", label: "Confusa" },
   { id: "autocritica", emoji: "😫", label: "Muito autocrítica" },
 ] as const;
+
+export interface AnamneseSubmitPayload extends AnamneseFormData {
+  localData: string;
+}

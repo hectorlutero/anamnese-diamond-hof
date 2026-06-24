@@ -63,6 +63,48 @@ interface TextFieldProps {
   type?: string;
   placeholder?: string;
   multiline?: boolean;
+  inputMode?: "text" | "numeric" | "tel";
+}
+
+interface MaskedFieldProps {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  mask: (value: string) => string;
+  required?: boolean;
+  placeholder?: string;
+  inputMode?: "text" | "numeric" | "tel";
+}
+
+export function MaskedField({
+  label,
+  value,
+  onChange,
+  mask,
+  required,
+  placeholder,
+  inputMode = "text",
+}: MaskedFieldProps) {
+  const inputClass =
+    "w-full border-0 border-b border-stone-300 bg-transparent px-0 py-2 text-stone-800 placeholder:text-stone-400 focus:border-gold-500 focus:outline-none focus:ring-0 transition-colors";
+
+  return (
+    <label className="mb-5 block">
+      <span className="mb-1 block text-sm font-medium text-stone-700">
+        {label}
+        {required && <span className="text-gold-600"> *</span>}
+      </span>
+      <input
+        type="text"
+        inputMode={inputMode}
+        value={value}
+        onChange={(e) => onChange(mask(e.target.value))}
+        required={required}
+        placeholder={placeholder}
+        className={inputClass}
+      />
+    </label>
+  );
 }
 
 export function TextField({
@@ -73,6 +115,7 @@ export function TextField({
   type = "text",
   placeholder,
   multiline,
+  inputMode,
 }: TextFieldProps) {
   const inputClass =
     "w-full border-0 border-b border-stone-300 bg-transparent px-0 py-2 text-stone-800 placeholder:text-stone-400 focus:border-gold-500 focus:outline-none focus:ring-0 transition-colors";
@@ -95,6 +138,7 @@ export function TextField({
       ) : (
         <input
           type={type}
+          inputMode={inputMode}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           required={required}

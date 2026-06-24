@@ -1,4 +1,4 @@
-import { AnamneseFormData, MOOD_OPTIONS, YesNo } from "./types";
+import { AnamneseFormData, AnamneseSubmitPayload, MOOD_OPTIONS, YesNo } from "./types";
 
 function yn(value: YesNo): string {
   if (value === "sim") return "Sim";
@@ -20,6 +20,18 @@ function formatHumor(ids: string[]): string {
     .join(", ");
 }
 
+function formatAddress(data: AnamneseFormData): string {
+  const parts = [
+    data.cep && `CEP ${data.cep}`,
+    data.logradouro,
+    data.numero && `nº ${data.numero}`,
+    data.complemento,
+    data.bairro,
+    [data.cidade, data.uf].filter(Boolean).join(" - "),
+  ].filter(Boolean);
+  return parts.length > 0 ? parts.join(", ") : "—";
+}
+
 const FUMANTE_LABELS: Record<string, string> = {
   sim: "Sim",
   nunca: "Não sou, nunca fui",
@@ -39,7 +51,7 @@ const INTESTINO_LABELS: Record<string, string> = {
   pessimo: "Péssimo",
 };
 
-export function formatAnamneseEmail(data: AnamneseFormData): {
+export function formatAnamneseEmail(data: AnamneseSubmitPayload): {
   subject: string;
   html: string;
   text: string;
@@ -53,7 +65,7 @@ export function formatAnamneseEmail(data: AnamneseFormData): {
         ["Nome", data.nome],
         ["Idade", data.idade],
         ["Contato", data.contato],
-        ["Endereço", data.endereco],
+        ["Endereço completo", formatAddress(data)],
       ],
     },
     {

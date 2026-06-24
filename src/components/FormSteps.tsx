@@ -1,8 +1,12 @@
 "use client";
 
 import { AnamneseFormData } from "@/lib/types";
+import { formatLocalData } from "@/lib/date";
+import { maskCPF, maskPhone } from "@/lib/masks";
+import { AddressFields } from "./AddressFields";
 import {
   CheckboxGroup,
+  MaskedField,
   MoodPicker,
   RadioGroup,
   SectionTitle,
@@ -23,9 +27,17 @@ export function StepIdentificacao({ data, update }: StepProps) {
     <>
       <SectionTitle>Identificação</SectionTitle>
       <TextField label="Nome" value={data.nome} onChange={(v) => update("nome", v)} required />
-      <TextField label="Idade" value={data.idade} onChange={(v) => update("idade", v)} required />
-      <TextField label="Contato" value={data.contato} onChange={(v) => update("contato", v)} required placeholder="Telefone ou WhatsApp" />
-      <TextField label="Endereço" value={data.endereco} onChange={(v) => update("endereco", v)} />
+      <TextField label="Idade" value={data.idade} onChange={(v) => update("idade", v)} required inputMode="numeric" />
+      <MaskedField
+        label="Contato"
+        value={data.contato}
+        onChange={(v) => update("contato", v)}
+        mask={maskPhone}
+        required
+        placeholder="(31) 99999-9999"
+        inputMode="tel"
+      />
+      <AddressFields data={data} update={update} />
     </>
   );
 }
@@ -195,6 +207,8 @@ export function StepAnamneseComplementar({ data, update }: StepProps) {
 }
 
 export function StepTermo({ data, update }: StepProps) {
+  const localData = formatLocalData(data.cidade, data.uf);
+
   return (
     <>
       <SectionTitle>Termo de Responsabilidade</SectionTitle>
@@ -202,8 +216,19 @@ export function StepTermo({ data, update }: StepProps) {
         Declaro verdadeiras as informações preenchidas acima, isentando o profissional de
         qualquer culpa ou responsabilidade provenientes de omissão ou desconhecimento.
       </p>
-      <TextField label="CPF do paciente" value={data.cpf} onChange={(v) => update("cpf", v)} required placeholder="000.000.000-00" />
-      <TextField label="Local e data" value={data.localData} onChange={(v) => update("localData", v)} required placeholder="Ex: Belo Horizonte, 23/06/2026" />
+      <MaskedField
+        label="CPF do paciente"
+        value={data.cpf}
+        onChange={(v) => update("cpf", v)}
+        mask={maskCPF}
+        required
+        placeholder="000.000.000-00"
+        inputMode="numeric"
+      />
+      <div className="mb-5 rounded-lg border border-stone-200 bg-stone-50 px-4 py-3">
+        <p className="text-xs font-medium uppercase tracking-wide text-stone-500">Local e data</p>
+        <p className="mt-1 text-sm text-stone-800">{localData}</p>
+      </div>
       <label className="mt-4 flex cursor-pointer items-start gap-3 rounded-lg border border-gold-200 bg-gold-50/50 p-4">
         <input
           type="checkbox"
