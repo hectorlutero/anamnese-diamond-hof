@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { Header } from "./Header";
-import { WhatsAppButton } from "./WhatsAppButton";
 import {
   StepAnamneseComplementar,
   StepDiagnoseFacial,
@@ -97,29 +96,25 @@ export function AnamneseForm() {
 
   if (status === "success") {
     return (
-      <>
-        <div className="mx-auto max-w-lg px-4 py-16 text-center">
-          <Header />
-          <div className="rounded-2xl border border-gold-200 bg-white p-8 shadow-lg">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gold-100">
-              <svg className="h-8 w-8 text-gold-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-            </div>
-            <h2 className="mb-2 font-serif text-2xl text-gold-800">Anamnese enviada!</h2>
-            <p className="text-stone-600">
-              Suas informações foram recebidas com sucesso. A equipe Diamond HOF entrará em contato se necessário.
-            </p>
+      <div className="mx-auto max-w-lg px-4 py-16 text-center">
+        <Header />
+        <div className="rounded-2xl border border-gold-200 bg-white p-8 shadow-lg">
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gold-100">
+            <svg className="h-8 w-8 text-gold-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
           </div>
+          <h2 className="mb-2 font-serif text-2xl text-gold-800">Anamnese enviada!</h2>
+          <p className="text-stone-600">
+            Suas informações foram recebidas com sucesso. A equipe Diamond HOF entrará em contato se necessário.
+          </p>
         </div>
-        <WhatsAppButton />
-      </>
+      </div>
     );
   }
 
   return (
-    <>
-      <div className="mx-auto max-w-2xl px-4 py-8 pb-24">
+    <div className="mx-auto max-w-2xl px-4 py-8 pb-24">
         <Header />
 
         <div className="mb-2 flex justify-between text-xs text-stone-500">
@@ -196,8 +191,6 @@ export function AnamneseForm() {
             <a href="https://instagram.com/dra_isadorasiman" className="hover:text-gold-600">@dra_isadorasiman</a>
           </p>
         </footer>
-      </div>
-      <WhatsAppButton />
-    </>
+    </div>
   );
 }
