@@ -13,9 +13,50 @@ const montserrat = Montserrat({
   subsets: ["latin"],
 });
 
+const siteUrl = "https://anamnese-diamond-hof.vercel.app";
+const title = "Anamnese | Diamond HOF";
+const description =
+  "Preencha sua ficha de anamnese online com segurança. Diamond HOF — Estética Integrada Premium. Dra. Isadora Siman.";
+
 export const metadata: Metadata = {
-  title: "Anamnese | Diamond HOF",
-  description: "Formulário de anamnese — Diamond HOF Estética Integrada Premium",
+  metadataBase: new URL(siteUrl),
+  title,
+  description,
+  keywords: [
+    "anamnese",
+    "estética",
+    "Diamond HOF",
+    "Dra. Isadora Siman",
+    "ficha de anamnese",
+    "estética integrada",
+  ],
+  authors: [{ name: "Diamond HOF" }],
+  creator: "Diamond HOF",
+  publisher: "Diamond HOF",
+  robots: { index: true, follow: true },
+  alternates: { canonical: siteUrl },
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    url: siteUrl,
+    siteName: "Diamond HOF",
+    title,
+    description,
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Diamond HOF — Estética Integrada Premium | Formulário de Anamnese",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: ["/og-image.png"],
+  },
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
